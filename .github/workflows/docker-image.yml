@@ -22,7 +22,7 @@ jobs:
       - name: echo MAVEN_VERSION
         run: echo $MAVEN_VERSION
       - name: echo GITHUB_REPOSITORY
-        run: echo ${{ env.GITHUB_REPOSITORY  }}
+        run: echo ${{ env.GITHUB_REPOSITORY  }} ${{ github.ref }}
       - name: Build the Docker image
         run: |
           docker version
