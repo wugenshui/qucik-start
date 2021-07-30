@@ -17,8 +17,8 @@ jobs:
           docker version
           echo ${{ env.GITHUB_ACTOR  }}
           echo ${{ env.GITHUB_REPOSITORY  }}
-          VERSION=${mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec}
-          echo ${VERSION}
+          VERSION=${{ mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec}}
+          echo ${{ env.VERSION }}
 #          # 登录阿里云镜像仓库
 #          docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
 #          cd docker/mysql
