@@ -13,8 +13,16 @@ jobs:
 #        run: mvn clean package -DskipTests
       - name: Set env
         run: echo "GITHUB_SHA_SHORT2=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-      - name: Test
+      - name: Set env2
+        run: echo "MAVEN_VERSION=$(echo mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)" >> $GITHUB_ENV
+      - name: echo GITHUB_SHA_SHORT2
         run: echo $GITHUB_SHA_SHORT2
+      - name: echo GITHUB_ACTOR
+        run: echo ${{ env.GITHUB_ACTOR  }}
+      - name: echo MAVEN_VERSION
+        run: echo $MAVEN_VERSION
+      - name: echo GITHUB_REPOSITORY
+        run: echo ${{ env.GITHUB_REPOSITORY  }}
       - name: Build the Docker image
         run: |
           docker version
