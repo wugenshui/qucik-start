@@ -11,7 +11,10 @@ jobs:
           java-version: 1.8
 #      - name: Build with Maven
 #        run: mvn clean package -DskipTests
-
+      - name: Set env
+        run: echo "GITHUB_SHA_SHORT2=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+      - name: Test
+        run: echo $GITHUB_SHA_SHORT2
       - name: Build the Docker image
         run: |
           docker version
