@@ -17,14 +17,12 @@ jobs:
         run: echo "MAVEN_VERSION=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)" >> $GITHUB_ENV
       - name: Set GITHUB_SHA_SHORT
         run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-      - name: echo GITHUB_SHA_SHORT
-        run: echo $GITHUB_SHA_SHORT
-      - name: echo GITHUB_ACTOR
-        run: echo ${{ env.GITHUB_ACTOR  }}
       - name: echo MAVEN_VERSION
         run: echo $MAVEN_VERSION
-      - name: echo GITHUB_REPOSITORY
-        run: echo ${{ env.GITHUB_REPOSITORY  }} ${{ github.ref }}
+      - name: echo GITHUB_SHA_SHORT
+        run: echo $GITHUB_SHA_SHORT
+      - name: echo env
+        run: echo ${{ github.actor }} / ${{ github.ref }}  / ${{ github.action }} / ${{ github.repository }} / ${{ github.repository_owner }}
       - name: Build the Docker image
         run: |
           docker version
