@@ -29,9 +29,9 @@ jobs:
           docker push ${{ github.repository_owner }}/ruoyi-gateway:$MAVEN_VERSION
 
           cd ../../ruoyi-modules/ruoyi-gen/target/
-          docker build . --file ../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-gen:$MAVEN_VERSION
+          docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-gen:$MAVEN_VERSION
           docker push ${{ github.repository_owner }}/ruoyi-gen:$MAVEN_VERSION
 
           cd ../../../ruoyi-modules/ruoyi-system/target/
-          docker build . --file ../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
+          docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
           docker push ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
