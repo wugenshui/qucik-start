@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ruoyi-auth:
+    container_name: ruoyi-auth
+    image: wugenshui/ruoyi-auth:1
+    ports:
+      - "9200:9200"
+    restart: always
+    environment:
+      NACAO_URL: 192.168.0.222:8848
