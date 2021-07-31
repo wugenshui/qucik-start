@@ -19,7 +19,19 @@ jobs:
         run: |
           # 登录阿里云镜像仓库
           docker login --username=${{ github.repository_owner }} --password=${{ secrets.DOCKER_PASSWORD }}
-          echo $PWD
+
           cd ruoyi-auth/target/
           docker build . --file ../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-auth:$MAVEN_VERSION
-          docker psuh ${{ github.repository_owner }}/ruoyi-auth:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-auth:$MAVEN_VERSION
+
+          cd ../../ruoyi-gateway/target/
+          docker build . --file ../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-gateway:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-gateway:$MAVEN_VERSION
+
+          cd ../../ruoyi-modules/ruoyi-gen/target/
+          docker build . --file ../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-gen:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-gen:$MAVEN_VERSION
+
+          cd ../../../ruoyi-modules/ruoyi-system/target/
+          docker build . --file ../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
