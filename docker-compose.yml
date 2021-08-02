@@ -1,10 +1,42 @@
 version: '3'
 services:
+  ruoyi-gateway:
+    container_name: ruoyi-gateway
+    image: wugenshui/ruoyi-gateway:3.0.0
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      NACAO_URL: 192.168.0.222:8848
   ruoyi-auth:
     container_name: ruoyi-auth
-    image: wugenshui/ruoyi-auth:1
+    image: wugenshui/ruoyi-auth:3.0.0
     ports:
       - "9200:9200"
     restart: always
     environment:
       NACAO_URL: 192.168.0.222:8848
+  ruoyi-system:
+    container_name: ruoyi-system
+    image: wugenshui/ruoyi-system:3.0.0
+    ports:
+      - "9201:9201"
+    restart: always
+    environment:
+      NACAO_URL: 192.168.0.222:8848
+  ruoyi-gen:
+    container_name: ruoyi-gen
+    image: wugenshui/ruoyi-gen:3.0.0
+    ports:
+      - "9202:9202"
+    restart: always
+    environment:
+      NACAO_URL: 192.168.0.222:8848
+  ruoyi-ui:
+    container_name: ruoyi-ui
+    image: wugenshui/ruoyi-ui:3.0.0
+    ports:
+      - "9527:80"
+    restart: always
+    environment:
+      VUE_APP_BASE_API: http://192.168.0.222:8080
