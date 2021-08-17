@@ -44,6 +44,6 @@ jobs:
           docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-file:$MAVEN_VERSION
           docker push ${{ github.repository_owner }}/ruoyi-file:$MAVEN_VERSION
 
-          cd ../../../ruoyi-visual/ruoyi-visual-monitor/target/
+          cd ../../../ruoyi-visual/ruoyi-monitor/target/
           docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-monitor:$MAVEN_VERSION
           docker push ${{ github.repository_owner }}/ruoyi-monitor:$MAVEN_VERSION
