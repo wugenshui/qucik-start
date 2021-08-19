@@ -35,3 +35,15 @@ jobs:
           cd ../../../ruoyi-modules/ruoyi-system/target/
           docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
           docker push ${{ github.repository_owner }}/ruoyi-system:$MAVEN_VERSION
+
+          cd ../../../ruoyi-modules/ruoyi-job/target/
+          docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-job:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-job:$MAVEN_VERSION
+
+          cd ../../../ruoyi-modules/ruoyi-file/target/
+          docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-file:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-file:$MAVEN_VERSION
+
+          cd ../../../ruoyi-visual/ruoyi-monitor/target/
+          docker build . --file ../../../Dockerfile --tag ${{ github.repository_owner }}/ruoyi-monitor:$MAVEN_VERSION
+          docker push ${{ github.repository_owner }}/ruoyi-monitor:$MAVEN_VERSION
