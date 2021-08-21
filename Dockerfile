@@ -1,11 +1,23 @@
-# 基础镜像，也可自行调整为其它可用镜像，例如：openjdk:8-jdk、openjdk:8-jre-slim、openjdk:8-jre-alpine等
-FROM openjdk:8-jre
+# 指定基础镜像，这是分阶段构建的前期阶段
+FROM openjdk:8u212-jdk-stretch as builder
+# 执行工作目录
+WORKDIR application
+# 配置参数
+ARG JAR_FILE=*.jar
+# 将编译构建得到的jar文件复制到镜像空间中
+COPY ${JAR_FILE} application.jar
+# 通过工具spring-boot-jarmode-layertools从application.jar中提取拆分后的构建结果
+RUN java -Djarmode=layertools -jar application.jar extract
+
+# 正式构建镜像
+FROM openjdk:8u212-jdk-stretch
 
 ENV LANG C.UTF-8
 
-ENV APP_HOME=/usr/local
-
-ENV TIMEZONE=Asia/Shanghai
+# 设置容器时间
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# 设置容器时区
+RUN echo 'Asia/Shanghai' >/etc/timezone
 
 # JAVA运行参数
 ENV JAVA_OPTS=""
@@ -13,19 +25,12 @@ ENV JAVA_OPTS=""
 # APP运行参数
 ENV APP_OPTS=""
 
-# 设置容器时间
-RUN ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+WORKDIR application
 
-# 设置容器时区
-RUN echo $TIMEZONE >/etc/timezone
+# 前一阶段从jar中提取除了多个文件，这里分别执行COPY命令复制到镜像空间中，每次COPY都是一个layer
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
 
-WORKDIR $APP_HOME
-
-RUN chmod -R 755 $APP_HOME
-
-# EXPOSE 8080
-
-# server-eureka-1.0 是构建后 JAR 包名称,例如 sdms-order-service-1.0.0
-COPY "*.jar" "app.jar"
-
-ENTRYPOINT "sh" "-c" "java $JAVA_OPTS -jar app.jar $APP_OPTS"
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS org.springframework.boot.loader.JarLauncher $APP_OPTS"]
