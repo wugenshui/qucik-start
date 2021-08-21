@@ -29,8 +29,12 @@ WORKDIR application
 
 # 前一阶段从jar中提取除了多个文件，这里分别执行COPY命令复制到镜像空间中，每次COPY都是一个layer
 COPY --from=builder application/dependencies/ ./
+RUN true
 COPY --from=builder application/spring-boot-loader/ ./
+RUN true
 COPY --from=builder application/snapshot-dependencies/ ./
+RUN true
 COPY --from=builder application/application/ ./
+RUN true
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS org.springframework.boot.loader.JarLauncher $APP_OPTS"]
