@@ -55,10 +55,10 @@
         </dependency>
         
         <!-- RuoYi Common DataSource -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-datasource</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-datasource</artifactId>-->
+<!--        </dependency>-->
         
         <!-- RuoYi Common DataScope -->
         <dependency>
