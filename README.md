@@ -1,3 +1,27 @@
+## 部署说明
+
+### nacos
+```
+mkdir -p /usr/local/nacos && cd $_
+cat > docker-compose.yml << EOF
+version: '2'
+services:
+  nacos:
+    image: nacos/nacos-server:2.0.2
+    container_name: nacos
+    environment:
+      - PREFER_HOST_MODE=192.168.3.113
+      - MODE=standalone
+    volumes:
+      - ./logs/:/home/nacos/logs
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    restart: always
+EOF
+```
+
+
 ## 平台简介
 
 若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
