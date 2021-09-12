@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysClassMapper">
+    
+    <resultMap type="SysClass" id="SysClassResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="master"    column="master"    />
+    </resultMap>
+
+    <sql id="selectSysClassVo">
+        select id, name, master from sys_class
+    </sql>
+
+    <select id="selectSysClassList" parameterType="SysClass" resultMap="SysClassResult">
+        <include refid="selectSysClassVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="master != null  and master != ''"> and master = #{master}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysClassById" parameterType="Long" resultMap="SysClassResult">
+        <include refid="selectSysClassVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysClass" parameterType="SysClass">
+        insert into sys_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="master != null">master,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="master != null">#{master},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysClass" parameterType="SysClass">
+        update sys_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="master != null">master = #{master},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysClassById" parameterType="Long">
+        delete from sys_class where id = #{id}
+    </delete>
+
+    <delete id="deleteSysClassByIds" parameterType="String">
+        delete from sys_class where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

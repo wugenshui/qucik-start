@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysTreeMapper">
+    
+    <resultMap type="SysTree" id="SysTreeResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="pid"    column="pid"    />
+        <result property="master"    column="master"    />
+        <result property="sex"    column="sex"    />
+    </resultMap>
+
+    <sql id="selectSysTreeVo">
+        select id, name, pid, master, sex from sys_tree
+    </sql>
+
+    <select id="selectSysTreeList" parameterType="SysTree" resultMap="SysTreeResult">
+        <include refid="selectSysTreeVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="master != null  and master != ''"> and master = #{master}</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTreeById" parameterType="Long" resultMap="SysTreeResult">
+        <include refid="selectSysTreeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysTree" parameterType="SysTree" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_tree
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="master != null and master != ''">master,</if>
+            <if test="sex != null">sex,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="master != null and master != ''">#{master},</if>
+            <if test="sex != null">#{sex},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTree" parameterType="SysTree">
+        update sys_tree
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="master != null and master != ''">master = #{master},</if>
+            <if test="sex != null">sex = #{sex},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTreeById" parameterType="Long">
+        delete from sys_tree where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTreeByIds" parameterType="String">
+        delete from sys_tree where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
