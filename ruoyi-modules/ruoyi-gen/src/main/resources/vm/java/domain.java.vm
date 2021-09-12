@@ -23,8 +23,7 @@ import com.ruoyi.common.core.web.domain.TreeEntity;
 #elseif($table.tree)
 #set($Entity="TreeEntity")
 #end
-public class ${ClassName} extends ${Entity}
-{
+public class ${ClassName} extends ${Entity} {
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
@@ -51,7 +50,9 @@ public class ${ClassName} extends ${Entity}
 #end
 #end
 #if($table.sub)
-    /** $table.subTable.functionName信息 */
+    /**
+     * $table.subTable.functionName信息
+     */
     private List<${subClassName}> ${subclassName}List;
 
 #end
@@ -62,13 +63,11 @@ public class ${ClassName} extends ${Entity}
 #else
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #end
-    public void set${AttrName}($column.javaType $column.javaField) 
-    {
+    public void set${AttrName}($column.javaType $column.javaField) {
         this.$column.javaField = $column.javaField;
     }
 
-    public $column.javaType get${AttrName}() 
-    {
+    public $column.javaType get${AttrName}() {
         return $column.javaField;
     }
 #end
